@@ -432,7 +432,38 @@ class Bot {
     }
 
     return bestMoves[Math.floor(Math.random() * bestMoves.length)];    
-  }  
+  }
+  getPoints(highestScore) {
+    let highestScore = -Infinity;
+    let bestMoves = [];
+
+    for (const move of safeMoves) {
+      let reachableTiles = arena.getAvailableTilesNumber(
+        move.xMove,
+        move.yMove
+      );  
+      reachableTiles += this.matrix[20 * move.yMove + move.xMove];
+      const localBranching = arena.getLegalMoves(
+        move.xMove,
+        move.yMove,
+        false
+      ).length;
+      const moveScore = reachableTiles * 2 + localBranching;
+
+      if (moveScore > highestScore) {
+        highestScore = moveScore;
+        bestMoves = [[move.xMove, move.yMove]];
+      } else if (moveScore === highestScore) {
+        bestMoves.push([move.xMove, move.yMove]);
+      }
+    }
+
+    return highestScore;  
+  }
+  prediction(arena, game, player, enemy, x, y){
+    
+
+  }
 }
 
 // Game Initialisation

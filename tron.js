@@ -361,12 +361,78 @@ class Bot {
   constructor(name, linkedBike) {
     this.name = name;
     this.linkedBike = linkedBike;
+    this.matrix = [
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 0,
+      0, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 8, 9, 0,
+      0, 10, 8, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 10, 0,
+      0, 10, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 10, 0,
+      0, 10, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 10, 0,
+      0, 10, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 10, 0,
+      0, 10, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 10, 0,
+      0, 10, 9, 0, 0, 0, 0, 0, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 10, 0,
+      0, 10, 9, 9, 9, 9, 9, 9, 9, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 0,
+      0, 0, 10, 10, 10, 0, 0, 10, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 10, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+
+    ];
   }
 
-  // Put your code here
-  // This should only return an array containing the choosen coordinates
-  // Ex: [2, 1]
-  getMove() {}
+  getMove(arena) {
+    const safeMoves = arena.getLegalMoves(
+      this.linkedBike.x,
+      this.linkedBike.y,
+      false
+    );
+
+    if (safeMoves.length === 0) {
+      const emergencyMoves = arena.getLegalMoves(
+        this.linkedBike.x,
+        this.linkedBike.y,
+        true
+      );
+      if (emergencyMoves.length === 0) {
+        return [this.linkedBike.x, this.linkedBike.y];
+      }
+      const fallback =
+        emergencyMoves[Math.floor(Math.random() * emergencyMoves.length)];
+      return [fallback.xMove, fallback.yMove];
+    }
+
+    let highestScore = -Infinity;
+    let bestMoves = [];
+
+    for (const move of safeMoves) {
+      let reachableTiles = arena.getAvailableTilesNumber(
+        move.xMove,
+        move.yMove
+      );  
+      reachableTiles += this.matrix[20 * move.yMove + move.xMove];
+      const localBranching = arena.getLegalMoves(
+        move.xMove,
+        move.yMove,
+        false
+      ).length;
+      const moveScore = reachableTiles * 2 + localBranching;
+
+      if (moveScore > highestScore) {
+        highestScore = moveScore;
+        bestMoves = [[move.xMove, move.yMove]];
+      } else if (moveScore === highestScore) {
+        bestMoves.push([move.xMove, move.yMove]);
+      }
+    }
+
+    return bestMoves[Math.floor(Math.random() * bestMoves.length)];    
+  }  
 }
 
 // Game Initialisation

@@ -411,7 +411,7 @@ class Bot {
     let bestMoves = [];
 
     for (const move of safeMoves) {
-      let reachableTiles = arena.getAvailableTilesNumber(
+      let reachableTiles = arenarena.getAvailableTilesNumber(
         move.xMove,
         move.yMove
       );  
@@ -434,16 +434,14 @@ class Bot {
     return bestMoves[Math.floor(Math.random() * bestMoves.length)];    
   }
   getPoints(highestScore) {
-    let highestScore = -Infinity;
-    let bestMoves = [];
-
+  
     for (const move of safeMoves) {
       let reachableTiles = arena.getAvailableTilesNumber(
         move.xMove,
         move.yMove
       );  
       reachableTiles += this.matrix[20 * move.yMove + move.xMove];
-      const localBranching = arena.getLegalMoves(
+      const localBranching = rena.getLegalMoves(
         move.xMove,
         move.yMove,
         false
@@ -462,6 +460,15 @@ class Bot {
   }
   prediction(arena, game, player, enemy, x, y){
     
+      
+    let cloneArena = Object.assign(cloneArena, arena);
+    let cloneGame = Object.assign(cloneGame, game);
+    let clonePlayer = Object.assign(clonePlayer,  player);
+    let cloneEnemy = Object.assign(cloneEnemy, enemy);
+
+    player.moveBike(x, y, cloneArena, cloneGame);
+
+  return this.getPoints();
 
   }
 }

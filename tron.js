@@ -411,7 +411,7 @@ class Bot {
     let bestMoves = [];
 
     for (const move of safeMoves) {
-      let reachableTiles = arenarena.getAvailableTilesNumber(
+      let reachableTiles = arena.getAvailableTilesNumber(
         move.xMove,
         move.yMove
       );  

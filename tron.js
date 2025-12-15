@@ -103,7 +103,7 @@ class Arena {
       [x + 1, y],
       [x - 1, y],
       [x, y + 1],
-      [x, y - 1],
+      [x, y - 1]
     ];
 
     let currentMove = 0;
@@ -126,7 +126,7 @@ class Arena {
           legalMoves.push({
             xMove: possibleMoves[currentMove][0],
             yMove: possibleMoves[currentMove][1],
-            collision: isCollision,
+            collision: isCollision
           });
         }
       }
@@ -157,7 +157,7 @@ class Arena {
     return {
       maxX: currentX,
       maxY: currentY,
-      lineSize: lineSize,
+      lineSize: lineSize
     };
   }
 
@@ -275,7 +275,7 @@ class Bike {
   }
 
   // Only approved way to move your cycle during a turn
-  moveBike(x, y, arena, game) {
+  moveBike(x, y, arena, game, drawArena = false) {
     if (!arena.isValidMove(x, y)) {
       game.endGame(true);
       return;
@@ -299,10 +299,12 @@ class Bike {
     arena.grid[x * arena.gridSize + y].content = "Player";
     arena.grid[x * arena.gridSize + y].linkedPlayer = this;
     arena.grid[x * arena.gridSize + y].color = this.wallColor;
-    arena.drawArena([
-      arena.grid[this.x * arena.gridSize + this.y],
-      arena.grid[x * arena.gridSize + y],
-    ]);
+    if (drawArena) {
+      arena.drawArena([
+        arena.grid[this.x * arena.gridSize + this.y],
+        arena.grid[x * arena.gridSize + y]
+      ]);
+    }
 
     this.x = x;
     this.y = y;
@@ -357,7 +359,7 @@ class Game {
   }
 }
 
-class Bot {
+class Emna {
   constructor(name, linkedBike) {
     this.name = name;
     this.linkedBike = linkedBike;
@@ -371,21 +373,21 @@ class Bot {
       0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
       0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
       0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 0, 0, 0,
+      0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10, 0, 0,
+      0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 0, 0,
+      0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 0,
+      0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 0,
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     ];
   }
 
-  getMove(arena) {
+  getMove(arena, game) {
     const safeMoves = arena.getLegalMoves(
       this.linkedBike.x,
       this.linkedBike.y,
@@ -393,17 +395,7 @@ class Bot {
     );
 
     if (safeMoves.length === 0) {
-      const emergencyMoves = arena.getLegalMoves(
-        this.linkedBike.x,
-        this.linkedBike.y,
-        true
-      );
-      if (emergencyMoves.length === 0) {
-        return [this.linkedBike.x, this.linkedBike.y];
-      }
-      const fallback =
-        emergencyMoves[Math.floor(Math.random() * emergencyMoves.length)];
-      return [fallback.xMove, fallback.yMove];
+        return [this.linkedBike.x + 1, this.linkedBike.y];
     }
 
     let highestScore = -Infinity;
@@ -440,97 +432,8 @@ class Bot {
 
     return bestMoves[Math.floor(Math.random() * bestMoves.length)];    
   }
-  getPoints(highestScore) {
-  
-    for (const move of safeMoves) {
-      let reachableTiles = arena.getAvailableTilesNumber(
-        move.xMove,
-        move.yMove
-      );  
-      reachableTiles += this.matrix[20 * move.yMove + move.xMove];
-      const localBranching = arena.getLegalMoves(
-        move.xMove,
-        move.yMove,
-        false
-      ).length;
-      const moveScore = reachableTiles * 2 + localBranching;
 
-      if (moveScore > highestScore) {
-        highestScore = moveScore;
-        bestMoves = [[move.xMove, move.yMove]];
-      } else if (moveScore === highestScore) {
-        bestMoves.push([move.xMove, move.yMove]);
-      }
-    }
-
-    return highestScore;  
-  }
-  prediction(arena, game, player, enemy, x, y) {
-    let cloneArena = arena;
-    let cloneGame = new Game(bot1, bot2, bot1);
-    let clonePlayer = new Bike(
-      1,
-      1,
-      3,
-      3,
-      "rgb(15, 28, 125)",
-      "rgb(29, 10, 82)"
-    );
-    let cloneEnemy = new Bike(
-      currentArena.gridSize - 2,
-      currentArena.gridSize - 2,
-      3,
-      3,
-      "rgb(161, 18, 32)",
-      "rgb(110, 19, 44)"
-    );
-
-    cloneArena = structuredClone(arena);
-    cloneGame = structuredClone(game);
-    clonePlayer = structuredClone(player);
-    cloneEnemy = structuredClone(enemy);
-
-    cloneArena = Object.setPrototypeOf(cloneArena, Arena.prototype);
-    cloneGame = Object.setPrototypeOf(cloneGame, Game.prototype);
-    clonePlayer = Object.setPrototypeOf(clonePlayer, Bike.prototype);
-    cloneEnemy = Object.setPrototypeOf(cloneEnemy, Bike.prototype);
-
-    player.moveBike(x, y, cloneArena, cloneGame);
-
-    return this.getPoints();
-  }
-}
-
-class RedBot {
-  constructor(name, linkedBike) {
-    this.name = name;
-    this.linkedBike = linkedBike;
-    this.matrix = [
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    ];
-  }
-
-  getMove(arena) {
+  getPoints(arena, game) {
     const safeMoves = arena.getLegalMoves(
       this.linkedBike.x,
       this.linkedBike.y,
@@ -538,17 +441,7 @@ class RedBot {
     );
 
     if (safeMoves.length === 0) {
-      const emergencyMoves = arena.getLegalMoves(
-        this.linkedBike.x,
-        this.linkedBike.y,
-        true
-      );
-      if (emergencyMoves.length === 0) {
-        return [this.linkedBike.x, this.linkedBike.y];
-      }
-      const fallback =
-        emergencyMoves[Math.floor(Math.random() * emergencyMoves.length)];
-      return [fallback.xMove, fallback.yMove];
+        return -10;
     }
 
     let highestScore = -Infinity;
@@ -558,8 +451,9 @@ class RedBot {
       let reachableTiles = arena.getAvailableTilesNumber(
         move.xMove,
         move.yMove
-      );  
+      );
       reachableTiles += this.matrix[20 * move.yMove + move.xMove];
+      
       const localBranching = arena.getLegalMoves(
         move.xMove,
         move.yMove,
@@ -569,13 +463,95 @@ class RedBot {
 
       if (moveScore > highestScore) {
         highestScore = moveScore;
-        bestMoves = [[move.xMove, move.yMove]];
-      } else if (moveScore === highestScore) {
-        bestMoves.push([move.xMove, move.yMove]);
+     }
+
+    return highestScore;    
+    }
+}
+  prediction(arena, game, player, enemy, x, y) {
+
+    let cloneArena = structuredClone(arena);
+    let cloneGame = structuredClone(game);
+    let clonePlayer = structuredClone(player);
+    let cloneEnemy = structuredClone(enemy);
+
+    cloneArena = Object.setPrototypeOf(cloneArena, Arena.prototype);
+    cloneGame = Object.setPrototypeOf(cloneGame, Game.prototype);
+    clonePlayer = Object.setPrototypeOf(clonePlayer, Bike.prototype);
+    cloneEnemy = Object.setPrototypeOf(cloneEnemy, Bike.prototype);
+
+    clonePlayer.moveBike(x, y, cloneArena, cloneGame);
+
+    return this.getPoints(cloneArena, cloneGame);
+  }
+}
+class Corto {
+  constructor(name, linkedBike) {
+    this.name = name;
+    this.linkedBike = linkedBike;
+    this.targetDir = [0, 0];
+    this.matrix = [
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 9, 9, 9,
+      9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 0, 0, 9, 8, 8, 8, 8, 8, 8, 8, 8,
+      8, 8, 8, 8, 8, 8, 8, 8, 9, 0, 0, 9, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+      7, 7, 7, 9, 0, 0, 9, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 9, 0,
+      0, 9, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 9, 0, 0, 9, 4, 4, 4,
+      4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 9, 0, 0, 9, 3, 3, 3, 3, 3, 3, 3, 3,
+      3, 3, 3, 3, 3, 3, 3, 3, 9, 0, 0, 9, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+      2, 2, 2, 9, 0, 0, 9, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 9, 0,
+      0, 9, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 9, 0, 0, 9, 2, 2, 2,
+      2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 9, 0, 0, 9, 3, 3, 3, 3, 3, 3, 3, 3,
+      3, 3, 3, 3, 3, 3, 3, 3, 9, 0, 0, 9, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
+      4, 4, 4, 9, 0, 0, 9, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 9, 0,
+      0, 9, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 9, 0, 0, 9, 7, 7, 7,
+      7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 9, 0, 0, 9, 8, 8, 8, 8, 8, 8, 8, 8,
+      8, 8, 8, 8, 8, 8, 8, 8, 9, 0, 0, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
+      9, 9, 9, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ];
+  }
+
+  getMove(arena, game) {
+    let legalMoves = arena.getLegalMoves(this.linkedBike.x, this.linkedBike.y);
+    let safeMoves = [];
+    let bestMoves = [];
+    let randomMove = [];
+    let currentMove = 0;
+
+    let points = 0;
+    let bestPoints = -1;
+
+    for (currentMove; currentMove < legalMoves.length; currentMove++) {
+      if (legalMoves[currentMove].collision == false) {
+        safeMoves.push(legalMoves[currentMove]);
       }
     }
 
-    return bestMoves[Math.floor(Math.random() * bestMoves.length)];    
+    for (currentMove = 0; currentMove < safeMoves.length; currentMove++) {
+      points =
+        arena.getAvailableTilesNumber(
+          safeMoves[currentMove].xMove,
+          safeMoves[currentMove].yMove
+        ) +
+        this.matrix[
+          safeMoves[currentMove].yMove * arena.gridSize +
+            safeMoves[currentMove].xMove
+        ];
+
+      if (points > bestPoints) {
+        bestPoints = points;
+        bestMoves = [safeMoves[currentMove]];
+      } else if (points == bestPoints) {
+        bestMoves.push(safeMoves[currentMove]);
+      }
+    }
+
+    if (bestMoves.length == 0) {
+      randomMove = legalMoves[Math.floor(Math.random() * legalMoves.length)];
+    } else {
+      randomMove = bestMoves[Math.floor(Math.random() * bestMoves.length)];
+    }
+
+    return [randomMove.xMove, randomMove.yMove];
   }
 }
 
@@ -596,8 +572,8 @@ player2 = new Bike(
 player1.placeBike(player1.x, player1.y, currentArena);
 player2.placeBike(player2.x, player2.y, currentArena);
 
-bot1 = new Bot("Blue", player1);
-bot2 = new RedBot("Red", player2);
+bot1 = new Emna("Blue", player1);
+bot2 = new Corto("Red", player2);
 
 currentArena.drawArena();
 
@@ -611,12 +587,14 @@ function gameLoop() {
       currentArena,
       currentGame
     );
-
+    console.log(moveCoordinates);
+    
     currentGame.currentPlayer.linkedBike.moveBike(
       moveCoordinates[0],
       moveCoordinates[1],
       currentArena,
-      currentGame
+      currentGame,
+      true
     );
   }
   window.requestAnimationFrame(gameLoop);
